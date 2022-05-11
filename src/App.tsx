@@ -1,13 +1,13 @@
 import React from "react";
-// import logo from "./logo.svg";
-// import "./App.css";
+import { LeafletMap } from "./Components/LeafletMap";
+import { LayerContextProvider } from "./Components/context/LayerContext";
 
-function App() {
+const App: React.FC = () => {
     return (
-        <div className="App">
-            <h1>hello world</h1>
-        </div>
+        <LayerContextProvider>
+            <LeafletMap />
+        </LayerContextProvider>
     );
-}
+};
 
 export default App;
