@@ -1,31 +1,30 @@
 import React, { useContext } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import { MapContainer, TileLayer, LayerGroup } from "react-leaflet";
-import { LatLngTuple } from "leaflet";
-import { LayerContext } from "./context/LayerContext";
-import AddMarkerButton from "./AddMarkerButton";
-import { Marker, Popup } from "react-leaflet";
-import { Navbar } from "./Navbar";
-import { popupsDefault } from "../defaults";
+import { useRecoilValue } from "recoil";
+import { MapContainer, TileLayer, LayerGroup, Marker, Popup } from "react-leaflet";
 
-const defaultLatLng: LatLngTuple = [60.00748, 30.37302];
-const zoom: number = 15;
+import { LayerContext } from "./context/LayerContext";
+import { LayerContextProvider } from "../Components/context/LayerContext";
+import { Navbar } from "./Navbar";
+import { markersListState } from "../state/atoms";
+import { zoom, defaultLatLng } from "../defaults";
 
 export const LeafletMap: React.FC = () => {
     const { point } = useContext(LayerContext);
+    const markersList = useRecoilValue(markersListState);
+    console.log(markersList);
+    
 
     return (
         <>
-            <BrowserRouter>
-                <Navbar />
+            <Navbar />
+            <LayerContextProvider>
                 <MapContainer id="mapId" center={defaultLatLng} zoom={zoom}>
-                    <AddMarkerButton />
                     <LayerGroup>{point}</LayerGroup>
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     ></TileLayer>
-                    {popupsDefault.map((item) => {
+                    {markersList.map((item) => {
                         return (
                             <Marker position={item.coordinates} key={item.id}>
                                 <Popup>
@@ -35,7 +34,7 @@ export const LeafletMap: React.FC = () => {
                         );
                     })}
                 </MapContainer>
-            </BrowserRouter>
+            </LayerContextProvider>
         </>
     );
 };

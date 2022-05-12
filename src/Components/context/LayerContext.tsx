@@ -8,5 +8,4 @@ const LayerContextProvider = ({ children }: any) => {
     return <LayerContext.Provider value={defaultValue}>{children}</LayerContext.Provider>;
 };
 
-//  and export both objects
 export { LayerContext, LayerContextProvider };

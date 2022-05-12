@@ -1,9 +1,23 @@
-// import useAddMarker from "./myHooks/useAddMarker";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
-interface Props {}
+import { modalIsActiveState } from "../state/atoms";
 
-const AddMarkerButton: React.FC<Props> = (props) => {
-    return <button onClick={(e) => console.log(e.target)}>Add Points</button>;
+const AddMarkerButton: React.FC = () => {
+    const showModal = useSetRecoilState(modalIsActiveState);
+    const showModalValue = useRecoilValue(modalIsActiveState);
+
+    const changeHandler = () => {
+        showModal(!showModalValue);
+        console.log(showModalValue);
+    };
+
+    return (
+        <button onClick={changeHandler}>
+            <a className="waves-effect waves-light btn modal-trigger" href="#modal1">
+                Add Points
+            </a>
+        </button>
+    );
 };
 
 export default AddMarkerButton;
