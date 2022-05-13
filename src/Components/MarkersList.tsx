@@ -6,15 +6,9 @@ export const MarkersList: React.FC = () => {
     const markersList = useRecoilValue(markersListState);
     const deleteOneItem = useSetRecoilState(markersListState);
 
-    const deleteItem = (e: any, id: any) => {
-        // console.log(e);
-        // console.log(id);
-        // console.log(markersList);
-        const filteredList = markersList.filter(item => item.id !== id);
-        deleteOneItem(filteredList)
-        // console.log(filteredList);
-        
-        
+    const deleteItem = (id: any) => {
+        const filteredList = markersList.filter((item) => item.id !== id);
+        deleteOneItem(filteredList);
     };
 
     return (
@@ -38,8 +32,8 @@ export const MarkersList: React.FC = () => {
                                 <div className="">
                                     <i
                                         className="material-icons"
-                                        onClick={(e) => {
-                                            deleteItem(e, item.id);
+                                        onClick={() => {
+                                            deleteItem(item.id);
                                         }}
                                     >
                                         delete
