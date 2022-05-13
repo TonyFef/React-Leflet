@@ -11,9 +11,9 @@ export const Navbar: React.FC = () => (
                 <li>
                     <NavLink to="/">Карта</NavLink>
                 </li>
-                <li>
+                {/* <li>
                     <NavLink to="/popups">Добавить маркер</NavLink>
-                </li>
+                </li> */}
                 <li>
                     <NavLink to="/list">Список маркеров</NavLink>
                 </li>

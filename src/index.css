@@ -77,3 +77,12 @@ button {
     border-radius: 5px;
     padding: 5px;
 }
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10%;
+}
+i {
+    cursor: pointer;
+}

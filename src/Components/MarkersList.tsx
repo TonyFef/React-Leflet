@@ -1,9 +1,21 @@
 import { Navbar } from "./Navbar";
 import { markersListState } from "../state/atoms";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const MarkersList: React.FC = () => {
     const markersList = useRecoilValue(markersListState);
+    const deleteOneItem = useSetRecoilState(markersListState);
+
+    const deleteItem = (e: any, id: any) => {
+        // console.log(e);
+        // console.log(id);
+        // console.log(markersList);
+        const filteredList = markersList.filter(item => item.id !== id);
+        deleteOneItem(filteredList)
+        // console.log(filteredList);
+        
+        
+    };
 
     return (
         <>
@@ -22,6 +34,16 @@ export const MarkersList: React.FC = () => {
                                         <br />
                                         {item.coordinates.join(" ")}
                                     </p>
+                                </div>
+                                <div className="">
+                                    <i
+                                        className="material-icons"
+                                        onClick={(e) => {
+                                            deleteItem(e, item.id);
+                                        }}
+                                    >
+                                        delete
+                                    </i>
                                 </div>
                             </div>
                         </div>

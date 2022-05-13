@@ -12,7 +12,7 @@ const App: React.FC = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<LeafletMap />} />
-                    <Route path="/popups" element={<Modal />} />
+                    {/* <Route path="/popups" element={<Modal />} /> */}
                     <Route path="/list" element={<MarkersList />} />
                 </Routes>
             </BrowserRouter>
