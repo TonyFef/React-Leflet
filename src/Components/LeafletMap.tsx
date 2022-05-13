@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { MapContainer, TileLayer, LayerGroup, Marker, Popup, useMapEvent } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
 
@@ -7,22 +7,25 @@ import { LayerContext } from "./context/LayerContext";
 import { LayerContextProvider } from "../Components/context/LayerContext";
 import { Navbar } from "./Navbar";
 import { markersListState } from "../state/atoms";
-import { zoom, defaultLatLng, id, date } from "../defaults";
-import { PopupsList } from "./PopupsList";
+import { zoom, defaultLatLng } from "../defaults";
 
 export const LeafletMap: React.FC = () => {
     const { point } = useContext(LayerContext);
 
+    const markersList = useRecoilValue(markersListState);
     const setNewItem = useSetRecoilState(markersListState);
 
     const [newPosition, setNewPosition] = useState<LatLngExpression>([0, 0]);
     const [error, setError] = useState<boolean>(false);
 
+    const date: string = new Date().toLocaleDateString("ru-RU");
     let newName: string = "";
     let newDescr: string = "";
     let positionCropped: string = "";
 
     const onAddToList = () => {
+        const id = new Date();
+
         if (newName !== "") {
             setNewItem((oldList) => {
                 return [...oldList, { id: +id, name: newName, descr: newDescr, date: date, coordinates: positionCropped.split(", ") }];
@@ -78,7 +81,15 @@ export const LeafletMap: React.FC = () => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     ></TileLayer>
-                    <PopupsList />
+                    {markersList.map((item) => {
+                        return (
+                            <Marker position={item.coordinates} key={item.id}>
+                                <Popup>
+                                    Name: {item.name} <br /> Description: {item.descr} <br /> Date: {item.date} <br /> Сoordinates: {item.coordinates}
+                                </Popup>
+                            </Marker>
+                        );
+                    })}
                     <AddMarker />
                 </MapContainer>
             </LayerContextProvider>
